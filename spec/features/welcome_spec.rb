@@ -125,5 +125,28 @@ RSpec.describe "/", type: :feature do
       expect(current_path).to eq(root_path)
       expect(page).to have_content("You must be logged in to do that")
     end
+
+    it "redirects visitors who try to access any admin routes to the landing page" do
+      visit "/admin/dashboard"
+      expect(current_path).to eq(root_path)
+      
+      visit "/admin/users/#{@user_1.id}"
+      expect(current_path).to eq(root_path)
+    end
+
+    it "redirects users who try to access any admin routes to the landing page" do
+      user = User.create!(name: "Lauren", email: "lauren@gmail.com", password: "password1")
+
+      click_link "Log In"
+      fill_in "Email", with: "lauren@gmail.com"
+      fill_in "Password", with: "password1"
+      click_button "Log In"
+
+      visit "/admin/dashboard"
+      expect(current_path).to eq(root_path)
+      
+      visit "/admin/users/#{@user_1.id}"
+      expect(current_path).to eq(root_path)
+    end
   end
 end

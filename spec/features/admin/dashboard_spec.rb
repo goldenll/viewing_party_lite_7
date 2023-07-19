@@ -31,10 +31,3 @@ describe "admin dashboard" do
     expect(page).to have_content("Parties Attending")
   end
 end
-
-
-
-
-
-
-
